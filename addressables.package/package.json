@@ -1,0 +1,15 @@
+{
+  "name": "com.necromacro.unity.addressables",
+  "version": "1.0.0",
+  "displayName": "NecroMacro.Addressables",
+  "description": "Core Addressables Unity Library",
+  "dependencies": {
+    "com.unity.addressables": "2.8.0",
+	"com.necromacro.unity.core": "1.0.0"
+  },
+  "author": {
+    "name": "NecroMacro",
+    "email": "lest.eg.ip@gmail.com",
+    "url": "https://t.me/necrostorm"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "name": "com.necromacro.unity.core",
+  "version": "1.0.0",
+  "displayName": "NecroMacro.Core",
+  "description": "Core Unity Library",
+  "author": {
+    "name": "NecroMacro",
+    "email": "lest.eg.ip@gmail.com",
+    "url": "https://t.me/necrostorm"
+  }
+}
