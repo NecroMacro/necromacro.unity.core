@@ -4,6 +4,16 @@ using R3;
 
 namespace NecroMacro.Core.Lifetime
 {
+    public static class DisposerExtensions
+    {
+        public static T AddTo<T>(this T disposable, IDisposer disposer)
+            where T : IDisposable
+        {
+            disposer.Add(disposable);
+            return disposable;
+        }
+    }
+    
     public interface IDisposer : IDisposable
     {
         void Add(IDisposable disposable);
@@ -21,6 +31,7 @@ namespace NecroMacro.Core.Lifetime
 
         public void Reset()
         {
+            Disposable.Dispose();
             Disposable.Clear();
         }
 

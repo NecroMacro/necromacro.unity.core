@@ -1,20 +1,20 @@
 {
-    "name": "NecroMacro.Addressables",
-    "rootNamespace": "NecroMacro.Addressables",
+    "name": "NecroMacro.MVP",
+    "rootNamespace": "NecroMacro.MVP",
     "references": [
-        "Unity.Addressables",
-        "Unity.ResourceManager",
-        "UniTask",
+        "VContainer",
         "NecroMacro.Core",
-        "UniTask.Addressables",
-        "VContainer"
+        "Unity.Addressables",
+        "UniTask",
+        "NecroMacro.Addressables",
+        "Unity.ResourceManager"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": false,
     "precompiledReferences": [],
-    "autoReferenced": true,
+    "autoReferenced": false,
     "defineConstraints": [],
     "versionDefines": [],
     "noEngineReferences": false

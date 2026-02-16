@@ -1,15 +1,20 @@
 ﻿using Cysharp.Threading.Tasks;
+using NecroMacro.Core.Lifetime;
+using VContainer;
 
 namespace NecroMacro.Core.StateMachine
 {
-    public abstract class State : State<Options>
+    public abstract class State : State<StateOptions>
     {
     }
 
-    public abstract class State<T> : IState where T : Options
+    public abstract class State<T> : IState where T : StateOptions
     {
+        [Inject]
+        protected ILifeCycleDisposer StateLifetime;
+        
         public StateMachine StateMachine { get; set; }
-
+        
         protected T Options { get; private set; }
 
         public virtual async UniTask OnEnter()
@@ -22,16 +27,21 @@ namespace NecroMacro.Core.StateMachine
             await UniTask.Yield();
         }
 
-        public void SetOptions(Options options)
+        public void SetOptions(StateOptions stateOptions)
         {
-            if (options is T stateOptions)
+            if (stateOptions is T typedOptions)
             {
-                Options = stateOptions;
+                Options = typedOptions;
             }
         }
 
         public virtual void OnUpdate()
         {
+        }
+
+        public void Dispose()
+        {
+            StateLifetime.Dispose();
         }
     }
 }

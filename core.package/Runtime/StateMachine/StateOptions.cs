@@ -1,6 +1,6 @@
 ﻿namespace NecroMacro.Core.StateMachine
 {
-    public abstract class Options
+    public abstract class StateOptions
     {
     }
 }

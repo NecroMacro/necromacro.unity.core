@@ -40,17 +40,18 @@ namespace NecroMacro.Core.StateMachine
             pendingTransitions.Enqueue(new Transition(stateType, null));
         }
 
-        public void RequestTransition<T>(Type stateType, T options) where T : Options
+        public void RequestTransition<T>(Type stateType, T options) where T : StateOptions
         {
             pendingTransitions.Enqueue(new Transition(stateType, options));
         }
 
-        private async UniTask ChangeTo<T>(Type stateType, T options) where T : Options
+        private async UniTask ChangeTo<T>(Type stateType, T options) where T : StateOptions
         {
             if (currentState != null)
             {
                 previousState = currentState;
                 await previousState.OnExit();
+                previousState.Dispose();
                 currentState = null;
             }
 
@@ -75,7 +76,7 @@ namespace NecroMacro.Core.StateMachine
                 while (pendingTransitions.Count > 0)
                 {
                     var transition = pendingTransitions.Dequeue();
-                    await ChangeTo(transition.Type, transition.Options);
+                    await ChangeTo(transition.Type, transition.StateOptions);
                 }
 
                 currentState?.OnUpdate();

@@ -2,22 +2,22 @@
 
 namespace NecroMacro.Core.StateMachine
 {
-    public class Transition : Transition<Options>
+    public class Transition : Transition<StateOptions>
     {
-        public Transition(Type type, Options options) : base(type, options)
+        public Transition(Type type, StateOptions stateOptions) : base(type, stateOptions)
         {
         }
     }
 
-    public abstract class Transition<T> where T : Options
+    public abstract class Transition<T> where T : StateOptions
     {
         public Type Type { get; }
-        public T Options { get; }
+        public T StateOptions { get; }
 
-        protected Transition(Type type, T options)
+        protected Transition(Type type, T stateOptions)
         {
             Type = type;
-            Options = options;
+            StateOptions = stateOptions;
         }
     }
 }
