@@ -17,22 +17,29 @@ namespace NecroMacro.Core.Lifetime
     public interface IDisposer : IDisposable
     {
         void Add(IDisposable disposable);
+        void Remove(IDisposable disposable);
         void Reset();
     }
     
     public abstract class Disposer : IDisposer
     {
-        private readonly CompositeDisposable Disposable = new();
+        private CompositeDisposable Disposable = new();
 
         public void Add(IDisposable disposable)
         {
             Disposable.Add(disposable);
+        }
+        
+        public void Remove(IDisposable disposable)
+        {
+	        Disposable.Remove(disposable);
         }
 
         public void Reset()
         {
             Disposable.Dispose();
             Disposable.Clear();
+            Disposable = new CompositeDisposable();
         }
 
         public void Dispose()

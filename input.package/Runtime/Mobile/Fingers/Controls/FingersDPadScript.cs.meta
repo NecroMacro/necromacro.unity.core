@@ -1,0 +1,19 @@
+fileFormatVersion: 2
+guid: 0dc5834135358d04487ff5c1e2873851
+timeCreated: 1501687308
+licenseType: Store
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 41076
+  packageName: Fingers - Touch Gestures for Unity
+  packageVersion: 3.0.15
+  assetPath: Packages/com.necromacro.unity-core/Input/Mobile/Fingers/Controls/FingersDPadScript.cs
+  uploadId: 828314

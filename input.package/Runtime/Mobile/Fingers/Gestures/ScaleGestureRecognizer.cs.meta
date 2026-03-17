@@ -1,0 +1,19 @@
+fileFormatVersion: 2
+guid: 7e3ed8cad84ce4670bb96d675225bda6
+timeCreated: 1435863199
+licenseType: Store
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 41076
+  packageName: Fingers - Touch Gestures for Unity
+  packageVersion: 3.0.15
+  assetPath: Packages/com.necromacro.unity-core/Input/Mobile/Fingers/Gestures/ScaleGestureRecognizer.cs
+  uploadId: 828314

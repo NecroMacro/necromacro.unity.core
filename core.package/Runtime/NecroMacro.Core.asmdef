@@ -4,7 +4,9 @@
     "references": [
         "UniTask",
         "UniTask.Linq",
-        "VContainer"
+        "VContainer",
+        "Unity.Timeline",
+        "Unity.Cinemachine"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

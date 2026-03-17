@@ -1,0 +1,19 @@
+fileFormatVersion: 2
+guid: 4bdb8709072497e40aa001db1a2913fc
+timeCreated: 1507836760
+licenseType: Store
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 41076
+  packageName: Fingers - Touch Gestures for Unity
+  packageVersion: 3.0.15
+  assetPath: Packages/com.necromacro.unity-core/Input/Mobile/Fingers/Components/LongPressGestureRecognizerComponentScript.cs
+  uploadId: 828314

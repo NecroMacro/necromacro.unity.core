@@ -17,15 +17,21 @@ namespace NecroMacro.Core.StateMachine
         
         protected T Options { get; private set; }
 
-        public virtual async UniTask OnEnter()
+        public async UniTask OnEnterInner()
         {
-            await UniTask.Yield();
+	        StateLifetime.Reset();
+	        await OnEnter();
+        }
+        
+        public async UniTask OnExitInner()
+        {
+	        await OnExit();
+	        StateLifetime.Dispose();
         }
 
-        public virtual async UniTask OnExit()
-        {
-            await UniTask.Yield();
-        }
+        public abstract UniTask OnEnter();
+
+        public abstract UniTask OnExit();
 
         public void SetOptions(StateOptions stateOptions)
         {

@@ -50,7 +50,7 @@ namespace NecroMacro.Core.StateMachine
             if (currentState != null)
             {
                 previousState = currentState;
-                await previousState.OnExit();
+                await previousState.OnExitInner();
                 previousState.Dispose();
                 currentState = null;
             }
@@ -59,7 +59,7 @@ namespace NecroMacro.Core.StateMachine
             {
                 nextState.SetOptions(options);
                 currentState = nextState;
-                await nextState.OnEnter();
+                await nextState.OnEnterInner();
             }
             else
             {

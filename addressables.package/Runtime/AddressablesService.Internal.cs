@@ -3,7 +3,6 @@ using System.Threading;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
-using UnityEngine.ResourceManagement.AsyncOperations;
 
 namespace NecroMacro.AddressablesTools
 {
@@ -65,21 +64,6 @@ namespace NecroMacro.AddressablesTools
 			#endif
 		}
 
-		private static async UniTask<T> AwaitHandle<T>(
-			AsyncOperationHandle<T> handle, CancellationToken token, IProgress<float> progress
-		)
-		{
-			var result = await handle
-			                   .ToUniTask(progress, PlayerLoopTiming.Update, token)
-			                   .SuppressCancellationThrow();
-
-			if (result.IsCanceled || result.Result == null)
-			{
-				Addressables.Release(handle);
-				return default;
-			}
-
-			return result.Result;
-		}
+		
 	}
 }

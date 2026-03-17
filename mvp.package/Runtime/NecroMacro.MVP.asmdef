@@ -1,13 +1,14 @@
 {
-    "name": "NecroMacro.MVP",
-    "rootNamespace": "NecroMacro.MVP",
+    "name": "NecroMacro.UI",
+    "rootNamespace": "NecroMacro.UI",
     "references": [
         "VContainer",
         "NecroMacro.Core",
         "Unity.Addressables",
         "UniTask",
         "NecroMacro.Addressables",
-        "Unity.ResourceManager"
+        "Unity.ResourceManager",
+      "DOTween.Modules"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

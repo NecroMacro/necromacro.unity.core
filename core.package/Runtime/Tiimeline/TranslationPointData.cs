@@ -1,0 +1,76 @@
+﻿using System;
+using Sirenix.OdinInspector;
+using UnityEngine;
+
+namespace NecroMacro.Core.Timeline {
+    [Serializable]
+    public class TranslationPointData : ITranslationPointData 
+    {
+        private enum PointType 
+        {
+            Vector3 = 0,
+            Transform = 1
+        }
+
+        [SerializeField]
+        private PointType _pointType;
+        [SerializeField, ShowIf(nameof(IsVector3))]
+        private Vector3 _vector3;
+        [SerializeField, ShowIf(nameof(IsTransform))]
+        private ExposedReference<Transform> _exposedTransform;
+        
+        public IExposedPropertyTable RuntimeResolver { get; set; }
+
+        private Transform ResolvedTransform {
+            get {
+                if (RuntimeResolver != null) {
+                    return _exposedTransform.Resolve(RuntimeResolver);
+                }
+                return null;
+            }
+        } 
+
+        public Vector3 Position {
+            get => GetPosition();
+            set => SetPosition(value);
+        }
+
+        public TranslationPointData(Vector3 position) {
+            _pointType = PointType.Vector3;
+            _vector3 = position;
+        }
+
+        // ReSharper disable once SuggestBaseTypeForParameter
+        public TranslationPointData(Transform transform) {
+            _pointType = PointType.Transform;
+            _exposedTransform.defaultValue = transform;
+        }
+
+        private Vector3 GetPosition() {
+            return _pointType switch {
+                PointType.Vector3 => _vector3,
+                PointType.Transform => ResolvedTransform ? ResolvedTransform.position : Vector3.zero,
+                _ => throw new ArgumentOutOfRangeException()
+            };
+        }
+
+        private void SetPosition(Vector3 value) {
+            switch (_pointType) {
+                case PointType.Vector3:
+                    _vector3 = value;
+                    break;
+                case PointType.Transform:
+                    var transform = ResolvedTransform;
+                    if (transform) {
+                        ResolvedTransform.position = value;
+                    }
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
+
+        private bool IsVector3 => _pointType == PointType.Vector3;
+        private bool IsTransform => _pointType == PointType.Transform;
+    }
+}

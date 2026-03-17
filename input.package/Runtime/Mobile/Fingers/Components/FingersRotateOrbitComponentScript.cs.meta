@@ -1,0 +1,19 @@
+fileFormatVersion: 2
+guid: b787641395ab476418b5f63f5839881f
+timeCreated: 1507755203
+licenseType: Store
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 41076
+  packageName: Fingers - Touch Gestures for Unity
+  packageVersion: 3.0.15
+  assetPath: Packages/com.necromacro.unity-core/Input/Mobile/Fingers/Components/FingersRotateOrbitComponentScript.cs
+  uploadId: 828314

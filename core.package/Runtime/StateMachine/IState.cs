@@ -6,8 +6,8 @@ namespace NecroMacro.Core.StateMachine
     public interface IState : IDisposable
     {
         StateMachine StateMachine { get; set; }
-        UniTask OnEnter();
-        UniTask OnExit();
+        UniTask OnEnterInner();
+        UniTask OnExitInner();
         void SetOptions(StateOptions stateOptions);
         void OnUpdate();
     }

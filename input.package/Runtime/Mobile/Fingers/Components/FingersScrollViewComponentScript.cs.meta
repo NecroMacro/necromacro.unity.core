@@ -1,0 +1,19 @@
+fileFormatVersion: 2
+guid: 1d53b87eb0d9d224c9cbebf0b119b2d4
+timeCreated: 1521646662
+licenseType: Store
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 41076
+  packageName: Fingers - Touch Gestures for Unity
+  packageVersion: 3.0.15
+  assetPath: Packages/com.necromacro.unity-core/Input/Mobile/Fingers/Components/FingersScrollViewComponentScript.cs
+  uploadId: 828314

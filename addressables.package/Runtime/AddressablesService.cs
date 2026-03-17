@@ -1,19 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using JetBrains.Annotations;
-using NecroMacro.Core.Lifetime;
-using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 
 namespace NecroMacro.AddressablesTools
 {
 	[UsedImplicitly]
-	public partial class AddressablesService : IAddressablesService
+	public partial class AddressablesService
 	{
-		public async UniTask StartAsync(CancellationToken token)
+		public async UniTask StartAsync(CancellationToken token = default)
 		{
 			await Addressables.InitializeAsync(true).ToUniTask(cancellationToken: token);
 			await UpdateCatalogs(token);
@@ -53,54 +50,6 @@ namespace NecroMacro.AddressablesTools
 				Addressables.Release(dependencies);
 
 			return status;
-		}
-
-		public async UniTask<T> Load<T>(
-			AssetReferenceT<T> reference,
-			IDisposer disposer,
-			CancellationToken token,
-			IProgress<float> progress = null
-		) where T : UnityEngine.Object
-		{
-			var handle = reference.LoadAssetAsync<T>();
-
-			var asset = await AwaitHandle(handle, token, progress);
-			if (asset == null) return null;
-
-			disposer?.Add(new AssetHandle<T>(handle));
-			return asset;
-		}
-
-		public async UniTask<GameObject> Instantiate(
-			AssetReference reference,
-			IDisposer disposer,
-			CancellationToken token,
-			IProgress<float> progress = null
-		)
-		{
-			var handle = reference.InstantiateAsync();
-
-			var instance = await AwaitHandle(handle, token, progress);
-			if (instance == null) return null;
-
-			disposer?.Add(new InstanceHandle(handle));
-			return instance;
-		}
-
-		public async UniTask<IList<T>> LoadByKey<T>(
-			object key,
-			IDisposer disposer,
-			CancellationToken token,
-			IProgress<float> progress = null
-		)
-		{
-			var handle = Addressables.LoadAssetsAsync<T>(key, null);
-
-			var assets = await AwaitHandle(handle, token, progress);
-			if (assets == null) return null;
-
-			disposer?.Add(new AssetHandle<IList<T>>(handle));
-			return assets;
 		}
 	}
 }

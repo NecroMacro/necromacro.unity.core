@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: c67be3fdc25bc3343a90feee86dad4ea
+timeCreated: 1475867230
+licenseType: Store
+TextScriptImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 41076
+  packageName: Fingers - Touch Gestures for Unity
+  packageVersion: 3.0.15
+  assetPath: Packages/com.necromacro.unity-core/Input/Mobile/Fingers/Other/XamarinAndroidTouchAdapter.txt
+  uploadId: 828314

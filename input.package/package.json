@@ -1,0 +1,14 @@
+{
+  "name": "com.necromacro.unity.input",
+  "version": "1.0.0",
+  "displayName": "NecroMacro.Input",
+  "description": "Core Input Unity Library",
+  "dependencies": {
+	"com.necromacro.unity.core": "1.0.0"
+  },
+  "author": {
+    "name": "NecroMacro",
+    "email": "lest.eg.ip@gmail.com",
+    "url": "https://t.me/necrostorm"
+  }
+}

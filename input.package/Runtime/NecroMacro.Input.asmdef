@@ -1,0 +1,20 @@
+{
+    "name": "NecroMacro.Input",
+    "rootNamespace": "NecroMacro.Input",
+    "references": [
+        "NecroMacro.Core",
+        "UniTask",
+        "R3.Unity",
+        "Unity.TextMeshPro",
+        "VContainer"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
