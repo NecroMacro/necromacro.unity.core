@@ -21,7 +21,7 @@ namespace NecroMacro.Core.Extensions
 					using var jsonReader = new JsonTextReader(reader);
 
 					var serializer = JsonSerializer.Create(settings ?? DefaultSerializerSettings);
-
+					
 					return serializer.Deserialize<T>(jsonReader);
 				}
 			);
