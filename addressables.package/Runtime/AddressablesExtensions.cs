@@ -109,17 +109,24 @@ namespace NecroMacro.AddressablesTools
 			this AsyncOperationHandle<T> handle, CancellationToken token, IProgress<float> progress
 		)
 		{
-			var result = await handle
-			                   .ToUniTask(progress, PlayerLoopTiming.Update, token)
-			                   .SuppressCancellationThrow();
+			try
+			{
+				var result = await handle
+				                   .ToUniTask(progress, PlayerLoopTiming.Update, token)
+				                   .SuppressCancellationThrow();
 
-			if (result.IsCanceled || result.Result == null)
+				if (result.IsCanceled || result.Result == null)
+				{
+					Addressables.Release(handle);
+					return default;
+				}
+
+				return result.Result;
+			} catch (Exception e)
 			{
 				Addressables.Release(handle);
 				return default;
 			}
-
-			return result.Result;
 		}
 	}
 }
