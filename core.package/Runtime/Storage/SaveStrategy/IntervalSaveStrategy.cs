@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using Cysharp.Threading.Tasks;
 
 namespace NecroMacro.Core.Storage
@@ -6,8 +7,8 @@ namespace NecroMacro.Core.Storage
 	public class IntervalSaveStrategy : ISaveStrategy
 	{
 		private readonly TimeSpan delay;
+		private CancellationTokenSource cancellationTokenSource = new();
 		private Func<UniTask> saveFunction;
-		private bool running;
 
 		public IntervalSaveStrategy(TimeSpan delay)
 		{
@@ -17,24 +18,37 @@ namespace NecroMacro.Core.Storage
 		public void Initialize(Func<UniTask> saveFunction)
 		{
 			this.saveFunction = saveFunction;
-			running = true;
-			Loop().Forget();
+			Loop().SuppressCancellationThrow().Forget();
 		}
 
 		private async UniTask Loop()
 		{
-			while (running)
+			while (!cancellationTokenSource.Token.IsCancellationRequested)
 			{
 				await saveFunction();
-				await UniTask.Delay(delay);
+				await UniTask.Delay(delay, cancellationToken: cancellationTokenSource.Token);
 			}
 		}
 
-		public void MarkDirty() { }
+		public void RequestSave()
+		{
+		}
+
+		public async UniTask SaveForce()
+		{
+			cancellationTokenSource.Cancel();
+			cancellationTokenSource.Dispose();
+
+			await saveFunction();
+
+			cancellationTokenSource = new CancellationTokenSource();
+			Loop().SuppressCancellationThrow().Forget();
+		}
 
 		public void Dispose()
 		{
-			running = false;
+			cancellationTokenSource.Cancel();
+			cancellationTokenSource.Dispose();
 		}
 	}
 }

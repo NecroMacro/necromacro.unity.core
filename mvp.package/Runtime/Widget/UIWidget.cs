@@ -188,7 +188,7 @@ namespace NecroMacro.UI
 
 		private void TryInitComponents()
 		{
-			if (Canvas.IsNull()) Canvas = GetComponent<Canvas>();
+			if (!Canvas) Canvas = GetComponent<Canvas>();
 			if (AppearController == null)
 				AppearController = GetComponent<UIAppearController>() ?? gameObject.AddComponent<UIAppearController>();
 			if (GraphicRaycaster.IsNull())

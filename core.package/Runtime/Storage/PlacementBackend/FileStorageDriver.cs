@@ -3,11 +3,11 @@ using Cysharp.Threading.Tasks;
 
 namespace NecroMacro.Core.Storage
 {
-	public class FileStorageBackend : IDataStorageBackend
+	public class FileStorageDriver : IStorageDriver
 	{
 		private readonly string filePath;
 
-		public FileStorageBackend(string folderPath, string fileName)
+		public FileStorageDriver(string folderPath, string fileName)
 		{
 			filePath = Path.Combine(folderPath, fileName);
 		}

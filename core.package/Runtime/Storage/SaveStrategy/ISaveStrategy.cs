@@ -6,6 +6,7 @@ namespace NecroMacro.Core.Storage
 	public interface ISaveStrategy : IDisposable
 	{
 		void Initialize(Func<UniTask> saveFunction);
-		void MarkDirty();
+		void RequestSave();
+		UniTask SaveForce();
 	}
 }

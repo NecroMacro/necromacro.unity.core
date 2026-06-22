@@ -8,22 +8,29 @@ namespace NecroMacro.Core.Storage
 		[Serializable]
 		private class Holder
 		{
-			public DateTimeOffset SinceDate { get; set; } = DateTimeOffset.Now;
-
 			public DateTimeOffset ChangeDate { get; set; }
 
 			public Dictionary<Type, IDataStorageMember> Storage = new();
 
-			public TM Get<TM>() where TM : class, IDataStorageMember, new()
+			public void Get<TMember>(out TMember member) where TMember : struct, IDataStorageMember
 			{
-				var memberType = typeof(TM);
-				
-				if (Storage.TryGetValue(memberType, out var storageMember)) 
-					return (TM)storageMember;
-				
-				var newlyCreatedMember = new TM();
-				Storage[memberType] = newlyCreatedMember;
-				return newlyCreatedMember;
+				var memberType = typeof(TMember);
+
+				if (Storage.TryGetValue(memberType, out var storageMember))
+				{
+					member = (TMember)storageMember;
+				}
+				else
+				{
+					member = default;
+					Storage[memberType] = member;
+				}
+			}
+
+			public void Set<TMember>(TMember member) where TMember : struct, IDataStorageMember
+			{
+				var memberType = typeof(TMember);
+				Storage[memberType] = member;
 			}
 		}
 	}

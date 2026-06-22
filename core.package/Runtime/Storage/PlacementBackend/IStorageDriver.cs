@@ -2,7 +2,7 @@
 
 namespace NecroMacro.Core.Storage
 {
-	public interface IDataStorageBackend
+	public interface IStorageDriver
 	{
 		UniTask<bool> Exists();
 		UniTask<string> Read();

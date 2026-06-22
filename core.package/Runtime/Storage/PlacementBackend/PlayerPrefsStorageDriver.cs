@@ -3,11 +3,11 @@ using UnityEngine;
 
 namespace NecroMacro.Core.Storage
 {
-	public class PlayerPrefsStorageBackend : IDataStorageBackend
+	public class PlayerPrefsStorageDriver : IStorageDriver
 	{
 		private readonly string key;
 
-		public PlayerPrefsStorageBackend(string key)
+		public PlayerPrefsStorageDriver(string key)
 		{
 			this.key = key;
 		}

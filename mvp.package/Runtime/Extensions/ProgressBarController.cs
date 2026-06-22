@@ -1,18 +1,15 @@
 ﻿using System.Threading;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
-using UnityEngine.UI;
 
-namespace Core.Ui.Components
+namespace NecroMacro.Ui
 {
 	public class ProgressBarController : MonoBehaviour
 	{
 		[SerializeField]
-		private Image fillImage;
-		
+		private SlicedFilledImage fillImage;
+
 		private CancellationTokenSource animationToken;
-		
-		private float targetProgress;
 
 		private void Start()
 		{
@@ -21,25 +18,38 @@ namespace Core.Ui.Components
 
 		public void SetProgress(float progress)
 		{
-			targetProgress = progress;
-			
+			progress = Mathf.Clamp01(progress);
+
 			animationToken?.Cancel();
+			animationToken?.Dispose();
+
 			animationToken = new CancellationTokenSource();
-			
-			UpdateValue(0.3f, animationToken).Forget();
+
+			AnimateProgress(progress, 0.3f, animationToken.Token).Forget();
 		}
-		
-		private async UniTaskVoid UpdateValue(float timeSec, CancellationTokenSource token)
+
+		private async UniTaskVoid AnimateProgress(
+			float targetProgress,
+			float duration,
+			CancellationToken token)
 		{
-			float framesCount = timeSec / Time.deltaTime;
-			float oneTickValue = (targetProgress - fillImage.fillAmount) / framesCount;
-			
-			while (fillImage.fillAmount < targetProgress)
+			float startProgress = fillImage.fillAmount;
+			float elapsed = 0f;
+
+			while (elapsed < duration)
 			{
-				if (token.IsCancellationRequested) return;
-				fillImage.fillAmount += oneTickValue;
-				await UniTask.NextFrame();
+				if (token.IsCancellationRequested)
+					return;
+
+				elapsed += Time.deltaTime;
+
+				float t = Mathf.Clamp01(elapsed / duration);
+				fillImage.fillAmount = Mathf.Lerp(startProgress, targetProgress, t);
+
+				await UniTask.NextFrame(token);
 			}
+
+			fillImage.fillAmount = targetProgress;
 		}
 	}
 }

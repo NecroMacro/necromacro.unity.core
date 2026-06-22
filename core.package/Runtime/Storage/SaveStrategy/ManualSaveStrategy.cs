@@ -12,14 +12,17 @@ namespace NecroMacro.Core.Storage
 			this.saveFunction = saveFunction;
 		}
 
-		public void MarkDirty()
-		{ }
-
-		public void Save()
+		public void RequestSave()
 		{
-			saveFunction().Forget();
 		}
 
-		public void Dispose() { }
+		public UniTask SaveForce()
+		{
+			return saveFunction?.Invoke() ?? UniTask.CompletedTask;
+		}
+
+		public void Dispose()
+		{
+		}
 	}
 }

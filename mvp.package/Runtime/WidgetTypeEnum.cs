@@ -2,8 +2,9 @@ namespace NecroMacro.UI
 {
 	public enum WidgetType
 	{
-		Screen,
-		Popup,
-		Overlay
+		Gameplay = -1,
+		Screen = 0,
+		Popup = 1,
+		Overlay = 2
 	}
 }
