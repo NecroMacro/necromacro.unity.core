@@ -10,10 +10,12 @@ namespace NecroMacro.Ui
 		private SlicedFilledImage fillImage;
 
 		private CancellationTokenSource animationToken;
+		private CancellationToken destroyToken;
 
 		private void Start()
 		{
 			fillImage.fillAmount = 0;
+			destroyToken = destroyCancellationToken;
 		}
 
 		public void SetProgress(float progress)
@@ -39,6 +41,9 @@ namespace NecroMacro.Ui
 			while (elapsed < duration)
 			{
 				if (token.IsCancellationRequested)
+					return;
+				
+				if (destroyToken.IsCancellationRequested)
 					return;
 
 				elapsed += Time.deltaTime;
