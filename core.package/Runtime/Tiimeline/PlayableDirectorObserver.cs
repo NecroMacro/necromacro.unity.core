@@ -20,7 +20,7 @@ namespace NecroMacro.Core.Timeline
 			get
 			{
 				double timeFromLastUpdateToEnd = _director.duration - _lastTime;
-				return Speed > 0 && timeFromLastUpdateToEnd <= Time.unscaledDeltaTime * Speed;
+				return Speed > 0 && timeFromLastUpdateToEnd <= Time.deltaTime * Speed;
 			}
 		}
 

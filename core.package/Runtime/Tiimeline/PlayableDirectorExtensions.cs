@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Playables;
-using UnityEngine.Timeline;
 
 #pragma warning disable CS4014
 
@@ -14,33 +11,7 @@ namespace NecroMacro.Core.Timeline
 	{
 		private static readonly Dictionary<PlayableDirector, PlayableDirectorObserver> _observersMap = new();
 		private static readonly Dictionary<PlayableDirector, Action> _completeHandlers = new();
-
-		public static void CompleteAndPlay(
-			this PlayableDirector director, IAnimationData data, Action onComplete = null
-		)
-		{
-			if (director.state == PlayState.Playing)
-			{
-				director.SkipToTheEnd();
-
-				UniTask.Void(async () =>
-					{
-						await UniTask.NextFrame();
-						director.PlayExt(data, onComplete);
-					}
-				);
-			} else
-			{
-				director.PlayExt(data, onComplete);
-			}
-		}
-
-		public static void PlayExt(this PlayableDirector director, IAnimationData data, Action onComplete = null)
-		{
-			director.SetAsset(data);
-			PlayExt(director, onComplete);
-		}
-
+		
 		public static void PlayExt(this PlayableDirector director, Action onComplete = null)
 		{
 			if (!director.isActiveAndEnabled)
@@ -72,180 +43,12 @@ namespace NecroMacro.Core.Timeline
 			}
 
 			director.Play();
-			var speed = GetSpeed(director);
-			director.SetSpeed(speed);
 
 			if (!director.isActiveAndEnabled || !director.playableGraph.IsValid())
 				return;
 
 			var rootPlayable = director.playableGraph.GetRootPlayable(0);
 			rootPlayable.SetTime(0f);
-		}
-
-		public static void SetSpeed(this PlayableDirector director, float value)
-		{
-			var observer = GetObserver(director);
-			observer.Speed = value;
-
-			if (!director.isActiveAndEnabled || !director.playableGraph.IsValid())
-			{
-				return;
-			}
-
-			var rootPlayable = director.playableGraph.GetRootPlayable(0);
-			rootPlayable.SetSpeed(value);
-		}
-
-		public static float GetSpeed(this PlayableDirector director)
-		{
-			var observer = GetObserver(director);
-			return observer.Speed;
-		}
-
-		public static IEnumerable<T> GetAllTracks<T>(this PlayableDirector playableDirector) where T : TrackAsset
-		{
-			if (playableDirector.playableAsset == null ||
-			    !(playableDirector.playableAsset is TimelineAsset timelineAsset))
-			{
-				yield break;
-			}
-
-			foreach (var trackAsset in timelineAsset.GetOutputTracks())
-			{
-				if (trackAsset is T tTrackAsset)
-					yield return tTrackAsset;
-			}
-		}
-
-		public static void SkipToTheEnd(this PlayableDirector director)
-		{
-			if (!director.isActiveAndEnabled || !director.playableGraph.IsValid())
-			{
-				return;
-			}
-
-			var rootPlayable = director.playableGraph.GetRootPlayable(0);
-			rootPlayable.SetTime(rootPlayable.GetDuration());
-			director.Evaluate();
-		}
-
-		public static bool IsPlaying(this PlayableDirector director)
-		{
-			if (!director.isActiveAndEnabled || !director.playableGraph.IsValid())
-			{
-				return false;
-			}
-			return director.playableGraph.IsPlaying();
-		}
-
-		public static void SetAsset(this PlayableDirector director, IAnimationData data)
-		{
-			if (!director)
-			{
-				return;
-			}
-
-			if (data.Asset != null)
-			{
-				director.playableAsset = data.Asset;
-			}
-
-			var timelineAsset = (TimelineAsset)director.playableAsset;
-			if (timelineAsset == null)
-			{
-				return;
-			}
-
-			var outputs = timelineAsset.outputs.ToList();
-			for (var i = 0; i < outputs.Count; ++i)
-			{
-				var playableBinding = outputs[i];
-				var genericBinding = data.GetGenericBinding(playableBinding, i);
-				var track = (TrackAsset)playableBinding.sourceObject;
-				director.SetGenericBinding(track, genericBinding);
-			}
-		}
-
-		public static void SetAsset(this PlayableDirector director, UnityEngine.Object obj)
-		{
-			if (!director)
-			{
-				return;
-			}
-
-			var timelineAsset = (TimelineAsset)director.playableAsset;
-			if (timelineAsset == null)
-			{
-				return;
-			}
-
-			var objectType = obj.GetType();
-
-			var outputs = timelineAsset.outputs.ToList();
-			for (var i = 0; i < outputs.Count; ++i)
-			{
-				var playableBinding = outputs[i];
-
-				if (playableBinding.outputTargetType == objectType)
-				{
-					var track = (TrackAsset)playableBinding.sourceObject;
-					director.SetGenericBinding(track, obj);
-
-					return;
-				}
-			}
-		}
-
-		public static void MuteTrack(this PlayableDirector director, string trackName)
-		{
-			var timelineAsset = (TimelineAsset)director.playableAsset;
-			if (timelineAsset == null)
-			{
-				return;
-			}
-
-			TrackAsset track = timelineAsset.GetRootTracks().FirstOrDefault(track => track.name == trackName);
-			if (track == null)
-			{
-				return;
-			}
-
-			bool isPlaying = director.state == PlayState.Playing;
-			track.muted = true;
-			double t0 = director.time;
-			director.RebuildGraph();
-			director.time = t0;
-
-			if (isPlaying)
-			{
-				director.Play();
-			}
-		}
-
-		public static void UnMuteTrack(this PlayableDirector director, string trackName)
-		{
-			var timelineAsset = (TimelineAsset)director.playableAsset;
-			if (timelineAsset == null)
-			{
-				return;
-			}
-
-			TrackAsset track = timelineAsset.GetRootTracks().FirstOrDefault(track => track.name == trackName);
-			if (track == null)
-			{
-				return;
-			}
-
-			bool isPlaying = director.state == PlayState.Playing;
-			track.muted = false;
-			double t0 = director.time;
-			director.Stop();
-			director.time = t0;
-
-			if (isPlaying)
-			{
-				director.Play();
-			}
 		}
 
 		private static PlayableDirectorObserver GetObserver(PlayableDirector director)
